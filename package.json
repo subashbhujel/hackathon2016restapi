@@ -15,5 +15,12 @@
   "bugs": {
     "url": "https://github.com/subashbhujel/hackathon2016restapi/issues"
   },
-  "homepage": "https://github.com/subashbhujel/hackathon2016restapi#readme"
+  "homepage": "https://github.com/subashbhujel/hackathon2016restapi#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "gulp": "^3.9.1",
+    "gulp-nodemon": "^2.1.0",
+    "mongoose": "^4.5.4"
+  }
 }
