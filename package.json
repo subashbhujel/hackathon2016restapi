@@ -1,0 +1,19 @@
+{
+  "name": "hackathon2016restapi",
+  "version": "1.0.0",
+  "description": "REST api to store the geo location of an object and retrieve them.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/subashbhujel/hackathon2016restapi.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/subashbhujel/hackathon2016restapi/issues"
+  },
+  "homepage": "https://github.com/subashbhujel/hackathon2016restapi#readme"
+}
