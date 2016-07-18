@@ -2,7 +2,7 @@ var express = require('express'),
     mongoose = require('mongoose'),
     bodyParser = require('body-parser');
 
-var db = mongoose.connect('mongodb://13.92.181.73/observeDbApi');
+var db = mongoose.connect('mongodb://23.101.138.227/observeDbApi');
 //var db = mongoose.connect('mongodb://localhost/observeDbApi');
 
 var app = express();
