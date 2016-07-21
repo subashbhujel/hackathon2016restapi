@@ -1,11 +1,21 @@
 var mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
+    Schema = mongoose.Schema,
+    moment = require('moment');
 
 var locationModel = new Schema({
-    id: { type: Number },
-    lat: { type: Number },
-    lon: { type: Number }//,
-    //datetime:{type: datetime, default: DateTime.Now()}
+    lat: {
+        type: Number
+    },
+    lon: {
+        type: Number
+    },
+    name:{
+        type: String
+    },
+    datetime: {
+        type: Date,
+        default: moment().format()
+    }
 });
 
 module.exports = mongoose.model('Location', locationModel);

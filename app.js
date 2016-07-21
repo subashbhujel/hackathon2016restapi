@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 app.use('/api/locations', locationRouter);
 
 app.get('/', function (req, res) {
-    res.send("Hello World!");
+    res.send("Welcome to an Observe api endpoints. Please use api/locations in your url. ");
 });
 
 app.listen(port, function () {

@@ -1,3 +1,6 @@
+// .  = This location
+//.. = Up a directory
+
 var express = require('express'),
     Location = require('../models/locationModel.js');
 
@@ -5,22 +8,20 @@ var routes = function() {
     var locationRouter = express.Router();
 
     locationRouter.route('/')
-
-    .post(function(req, res) {
-            // Location class is defined in LocationModel. This is the name given under exports module.
+        .post(function(req, res) {
             var location = new Location(req.body);
             location.save(); // Saves to the MongoDB
-            res.status(201).send('Successfully saved to the database.'); // 201 = Created
+            res.status(201).send(location); // 201 = Created
         })
         .get(function(req, res) {
             var query = {};
 
-            // This will work for all locations model query like:
+            // This will work for all Location model query like:
             // genre=fiction OR author=Subash Bhujel OR title=war and peace OR reach=true ....
             if (req.query) {
                 query = req.query;
             }
-
+            
             Location.find(query, function(err, locations) {
                 if (err) {
                     res.status(500).send(err);
@@ -30,19 +31,19 @@ var routes = function() {
             });
         });
 
-
     // **Middleware**
     // This is a way to separate repeated function between get/post/put/patch at one place.
-    // Here it works for route that uses bookId. 
+    // Here it works for route that uses locationId. 
     // Next = passes on to 'next' thing to be done. In this case it will move on to Get or Put.
     // If we had more middleware, it would have moved on to next middleware.
-
-    locationRouter.use('/:id', function(req, res, next) {
-        Location.find(req.params.id, function(err, location) {
+    locationRouter.use('/:locationId', function(req, res, next) {
+        Location.findById(req.params.locationId, function(err, location) {
             if (err) {
                 res.status(500).send(err);
             } else if (location) {
+                // Adding location to req=request so it's accessible through req keyword.
                 req.location = location;
+                // Moving on contro to next middleware or get/put in this case since we don't have any more middleware.
                 next();
             } else {
                 res.status(404).send('No location found.');
@@ -50,20 +51,22 @@ var routes = function() {
         });
     });
 
-    locationRouter.route('/:id')
+    locationRouter.route('/:locationId')
         .get(function(req, res) {
+            // If error or location not found, middleware will catch it already. It will reach here *if* it finds the location!
             res.json(req.location);
         })
         .put(function(req, res) {
-            req.location.id = req.body.id;
             req.location.lat = req.body.lat;
-            req.location.lon = req.body.lat;
+            req.location.lon = req.body.lon;
+            req.location.name = req.body.name;
 
             // Saves the updated location
             req.location.save(function(err) {
                 if (err) {
                     res.status(500).send(err);
                 } else {
+                    // returns the location object back.
                     res.json(req.location);
                 }
             });
@@ -73,15 +76,13 @@ var routes = function() {
             if (req.body._id) {
                 delete req.body._id;
             }
-            if (req.body.id) {
-                delete req.body.id;
-            }
 
+            // Loop through each element in the body and update corresponding records.
             for (var p in req.body) {
                 req.location[p] = req.body[p];
             }
 
-            // save the changes
+            // Save the changes
             req.location.save(function(err) {
                 if (err) {
                     res.status(500).send(err);
@@ -95,10 +96,10 @@ var routes = function() {
                 if (err) {
                     res.status(500).send(err);
                 } else {
-                    res.status(200).send('Removed!')
+                    res.status(200).send('Removed!');
                 }
             })
-        })
+        });
 
     return locationRouter;
 };
