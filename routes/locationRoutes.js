@@ -21,7 +21,9 @@ var routes = function() {
             if (req.query) {
                 query = req.query;
             }
-            
+
+            console.log("Testing from default");
+
             Location.find(query, function(err, locations) {
                 if (err) {
                     res.status(500).send(err);
@@ -29,6 +31,15 @@ var routes = function() {
                     res.json(locations);
                 }
             });
+        });
+
+    locationRouter.route('/add')
+        // NOT a COMMON PRactice. Not recommended.
+        // Basincally you are POSTing using GET verbs!
+        .get(function(req, res) {
+            var location = new Location(req.query);
+            location.save(); // Saves to the MongoDB
+            res.status(201).send(location); // 201 = Created
         });
 
     // **Middleware**
@@ -53,6 +64,7 @@ var routes = function() {
 
     locationRouter.route('/:locationId')
         .get(function(req, res) {
+            console.log("Testing location id");
             // If error or location not found, middleware will catch it already. It will reach here *if* it finds the location!
             res.json(req.location);
         })
