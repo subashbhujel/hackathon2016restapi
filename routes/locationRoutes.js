@@ -28,7 +28,7 @@ var routes = function() {
                 if (err) {
                     res.status(500).send(err);
                 } else {
-                    //res.header('Access-Control-Allow-Origin', '*');
+                    res.header('Access-Control-Allow-Origin', '*');
                     res.json(locations);
                 }
             });
